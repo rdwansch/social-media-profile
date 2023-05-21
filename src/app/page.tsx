@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <h1 className="text-center text-3xl">Next Auth</h1>
-
+      hello
       <div className="w-[500px] mx-auto">
         {session && JSON.stringify(session)}
         <br />
