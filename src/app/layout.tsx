@@ -3,7 +3,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 
 export const metadata = {
-  title: 'Social Media Profile',
+  title: 'Virtual Card',
   description: 'social media profile',
 };
 
