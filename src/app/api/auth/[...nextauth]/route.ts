@@ -1,8 +1,9 @@
-import NextAuth, { Awaitable, RequestInternal, User } from 'next-auth';
+import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -24,8 +25,31 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
 
-      async authorize(credentials, req) {
-        return { id: '12', name: 'Ella', email: 'elllyl@email.co' };
+      async authorize(credentials) {
+        console.log('Find user: ', `'${credentials?.username}'`);
+
+        const user = await prisma.user.findFirst({
+          where: {
+            username: credentials?.username,
+          },
+        });
+
+        if (!user) {
+          console.log('User not found');
+          return null;
+        }
+        console.log('User found');
+        console.time('compare password...');
+        const isMatched = bcrypt.compareSync(`${credentials?.password}`, `${user.password}`);
+        console.timeEnd('compare password...');
+
+        if (!isMatched) {
+          // eslint-disable-next-line quotes
+          console.log("password didn't match");
+          return null;
+        }
+
+        return user;
       },
     }),
   ],

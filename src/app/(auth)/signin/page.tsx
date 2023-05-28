@@ -2,10 +2,15 @@
 
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 
 export default function page() {
   const { data, status } = useSession();
+  // const router = useRouter();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const displayGooglePopup = () => {
     const dualScreenLeft = window.screenLeft ?? window.screenX;
     const dualScreenTop = window.screenTop ?? window.screenY;
@@ -29,14 +34,17 @@ export default function page() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const user = await signIn('credentials', {
-      name: '',
-      password: '',
+    const response = await signIn('credentials', {
+      username,
+      password,
       redirect: false,
     });
-    console.log('the user', user);
-    console.log(status);
+
+    if (response?.ok) {
+      // router.push('/');
+    }
   };
+  console.log(status);
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 flex flex-col justify-center sm:py-12">
@@ -55,17 +63,18 @@ export default function page() {
                   <div className="relative">
                     <input
                       autoComplete="off"
-                      id="email"
-                      name="email"
+                      id="username"
+                      name="username"
                       type="text"
+                      onChange={e => setUsername(e.target.value)}
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                      placeholder="Email address"
+                      placeholder="Username"
                     />
                     <label
-                      htmlFor="email"
+                      htmlFor="username"
                       className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                     >
-                      Email Address
+                      Username
                     </label>
                   </div>
                   <div className="relative mt-5">
@@ -74,6 +83,7 @@ export default function page() {
                       id="password"
                       name="password"
                       type="password"
+                      onChange={e => setPassword(e.target.value)}
                       className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Password"
                     />
@@ -85,7 +95,7 @@ export default function page() {
                     </label>
                   </div>
 
-                  <button className="bg-violet-500 text-white py-1 block w-full rounded-lg hover:bg-transparent border-violet-500 border hover:text-violet-700 hover:border-violet-700 hover:shadow transition text-base">
+                  <button className="mt-5 bg-violet-500 text-white py-1 block w-full rounded-lg hover:bg-transparent border-violet-500 border hover:text-violet-700 hover:border-violet-700 hover:shadow transition text-base">
                     Submit
                   </button>
                 </form>

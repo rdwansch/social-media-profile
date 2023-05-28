@@ -1,6 +1,5 @@
 import AuthProvider from '~/components/AuthProvider';
 import './globals.css';
-import { Inter } from 'next/font/google';
 
 export const metadata = {
   title: 'Virtual Card',
