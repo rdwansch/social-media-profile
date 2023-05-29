@@ -1,14 +1,23 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import Code from '~/components/Code';
 
 export default function Home() {
   const { data } = useSession();
-  console.log(data);
+
+  const html = `
+const Ridhwan = {
+  name: "Ridhwan Rasyid Siddiq",
+  age: 21,
+  techstack: 'JS, TS, Next, Prisma',
+}`;
+
   return (
-    <div>
-      Hello
-      <h1>Virtual Card</h1>
+    <div className="w-screen min-h-screen flex justify-center items-center">
+      <div className=" w-96 h-96 ">
+        <Code code={html} language="javascript" />
+      </div>
     </div>
   );
 }
