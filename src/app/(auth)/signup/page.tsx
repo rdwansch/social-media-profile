@@ -2,8 +2,13 @@
 
 import Link from 'next/link';
 import SignUp from './sign-up';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function page() {
+  const { status } = useSession();
+  const router = useRouter();
+
   const displayGooglePopup = () => {
     const dualScreenLeft = window.screenLeft ?? window.screenX;
     const dualScreenTop = window.screenTop ?? window.screenY;
@@ -24,6 +29,10 @@ export default function page() {
 
     newWindow?.focus();
   };
+
+  if (status == 'authenticated') {
+    router.push('/');
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 flex flex-col justify-center sm:py-12">

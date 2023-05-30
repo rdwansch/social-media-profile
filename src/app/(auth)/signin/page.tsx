@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
 export default function page() {
-  const { data, status } = useSession();
-  // const router = useRouter();
+  const { status } = useSession();
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -41,15 +41,16 @@ export default function page() {
     });
 
     if (response?.ok) {
-      // router.push('/');
+      router.push('/');
     }
   };
-  console.log(status);
+
+  if (status == 'authenticated') {
+    router.push('/');
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 flex flex-col justify-center sm:py-12">
-      {data && JSON.stringify(data)}
-      {!data && 'Tidak Login'}
       <div className=" py-3 mx-auto w-[600px]">
         {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 max-w-6xl shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div> */}
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl w-full sm:p-16 ">

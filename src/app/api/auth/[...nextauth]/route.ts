@@ -20,8 +20,6 @@ const handler = NextAuth({
       },
 
       async authorize(credentials) {
-        console.log('Find user: ', `'${credentials?.username}'`);
-
         const user = await prisma.user.findFirst({
           where: {
             username: credentials?.username,
@@ -29,17 +27,12 @@ const handler = NextAuth({
         });
 
         if (!user) {
-          console.log('User not found');
           return null;
         }
-        console.log('User found');
-        console.time('compare password...');
         const isMatched = bcrypt.compareSync(`${credentials?.password}`, `${user.password}`);
-        console.timeEnd('compare password...');
 
         if (!isMatched) {
           // eslint-disable-next-line quotes
-          console.log("password didn't match");
           return null;
         }
 
@@ -54,7 +47,6 @@ const handler = NextAuth({
 
   callbacks: {
     async jwt({ token, account }) {
-      console.log('JWT Account', account);
       if (account) {
         token.accessToken = account.access_token;
       }

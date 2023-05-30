@@ -13,7 +13,7 @@ export default async function Signup(dataform: FormData) {
     const username = dataform.get('username') + '';
 
     if (name || email || password || username) {
-      console.log(dataform);
+      // console.log(dataform);
       throw 'Not valid input form';
     }
 
@@ -33,7 +33,7 @@ export default async function Signup(dataform: FormData) {
         },
       });
 
-      console.log('Create a new user:', newUser);
+      // console.log('Create a new user:', newUser);
     }
   } catch (err) {
     console.log('Err:', err);
