@@ -16,8 +16,9 @@ type Code = {
 };
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const getData = () => fetch('/api/code');
+  const getData = () => fetch(`/api/code?slug=${params.slug}`);
   const [code, setCode] = useState<Code>();
+  const [err, SetErr] = useState(false);
 
   useEffect(() => {
     Prism.highlightAll();
@@ -28,7 +29,11 @@ export default function Page({ params }: { params: { slug: string } }) {
       const res = await getData();
       const data = await res.json();
 
-      setCode(data);
+      if (data.err) {
+        SetErr(true);
+      } else {
+        setCode(data);
+      }
     })();
   }, []);
 
@@ -37,7 +42,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div>
         <div className="Code">
           <pre>
-            {code && (
+            {!err && code && (
               <code
                 className="language-javascript"
                 dangerouslySetInnerHTML={{
@@ -51,7 +56,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               />
             )}
 
-            {!code && (
+            {!err && !code && (
               <code
                 className="language-javascript"
                 dangerouslySetInnerHTML={{
@@ -60,6 +65,18 @@ export default function Page({ params }: { params: { slug: string } }) {
    email: '',
    website: '',
    title: '',
+}`,
+                }}
+              />
+            )}
+
+            {err && (
+              <code
+                className="language-javascript"
+                dangerouslySetInnerHTML={{
+                  __html: `{
+    error: true,
+    message: 'The card could not be found.',
 }`,
                 }}
               />
