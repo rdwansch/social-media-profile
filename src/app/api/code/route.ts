@@ -42,9 +42,6 @@ export async function GET(request: Request) {
         website: '',
       },
       update: {
-        name: session.user.name,
-        email: session.user.email + '',
-        imgSrc: session.user.image + '',
         title: searchParams.get('title') ?? old?.title,
         website: searchParams.get('website') ?? old?.website,
       },
