@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Virtual Card
 
-## Getting Started
+## Description
+Learn how to use Next-Auth with Google OAuth2.0 and credentials provider, Prisma.io as ORM.
 
-First, run the development server:
+## Tech Stack
+* Next JS
+* Next-Auth
+* Tailwindcss
+* Prisma
 
+## Development
+Clone this project
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+$ git clone https://github.com/rdwansch/virtual-card.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install Dependencies
+```bash
+cd virtual-card && npm i
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Add Environment Variables.
+Get your Google Credentials at [Google Cloud Console](https://console.cloud.google.com/apis)
+```.env
+DATABASE_URL=
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 
-## Learn More
+NEXTAUTH_URL= 
+NEXTAUTH_SECRET=
+```
 
-To learn more about Next.js, take a look at the following resources:
+Migrate Database
+```bash
+npx prisma migrate dev
+```
+Run Locally
+```bash
+$ npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Production
+Hosting your Next JS at [vercel](https://vercel.com/home) and mysql to [PlanetScale](https://planetscale.com/).
+Visit live demo [Virtual Card](https://virtual-card-lemon.vercel.app/)
